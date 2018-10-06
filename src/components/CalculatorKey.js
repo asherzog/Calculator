@@ -12,10 +12,6 @@ const styles = {
     justifyContent: 'center',
     width: '24%'
   },
-  dbl: {
-    width: '49%',
-    background: '#d3d9e2'
-  },
   num: {
     background: '#d3d9e2'
   }
@@ -25,10 +21,7 @@ class CalculatorKey extends Component {
 
   styleCheck(val) {
     const { classes } = this.props
-
-    if (val === 0) {
-      return classes.dbl
-    } else if (typeof(val) === 'number' || val === '.') {
+    if (typeof(val) === 'number' || val === '.' || val === '=') {
       return classes.num
     } else {
       return null

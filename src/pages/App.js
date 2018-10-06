@@ -60,6 +60,7 @@ class App extends Component {
   handleKeyPress(e) {
     switch (e.key) {
       case 'Backspace':
+      return this.handleClick('<=')
       case 'c':
         return this.handleClick('C')
       case 'x':
@@ -67,6 +68,8 @@ class App extends Component {
         return this.handleClick('X')
       case 'S':
       case 's':
+      case 'R':
+      case 'r':
         return this.handleClick('SQRT')
       case 'Enter':
         return this.handleClick('=')
@@ -77,7 +80,7 @@ class App extends Component {
 
   renderKeys() {
     const { classes } = this.props
-    const btnConfigs = ['C', 'SQRT', '%', '/', 7, 8, 9, 'X', 4, 5, 6, '-', 1, 2, 3, '+', 0, '.', '=']
+    const btnConfigs = ['C', 'SQRT', '%', '<=', 7, 8, 9, 'X', 4, 5, 6, '/', 1, 2, 3, '+', 0, '.', '=', '-']
 
     return (
       <div className={classes.calculatorKeys}>

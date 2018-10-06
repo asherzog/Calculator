@@ -71,6 +71,13 @@ export const handleOperators = (val, state) => {
         newLine: true,
         operation: null,
       }
+    case '<=':
+      return {
+        ...state,
+        current: state.current.length > 1 ? state.current.slice(0, -1) : '0',
+        newLine: true,
+        operation: null,
+      }
     case '=':
       switch (state.operation) {
         case '+':
@@ -98,8 +105,8 @@ export const handleOperators = (val, state) => {
           return {
             ...state,
             newLine: true,
-            current: previous / current,
-            previous: previous / current
+            current: current !== 0 ? previous / current : 'NaN',
+            previous: current !== 0 ? previous / current : 'NaN'
           }
         default:
           return state
