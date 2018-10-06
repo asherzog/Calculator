@@ -1,6 +1,4 @@
 export const handleArithmetic = (val, state) => {
-  console.log(val);
-  console.log(state);
   switch (true) {
     case state.operation !== null:
       if (state.newLine) {
@@ -25,6 +23,8 @@ export const handleArithmetic = (val, state) => {
 }
 
 export const handleOperators = (val, state) => {
+  const current = parseFloat(state.current)
+  const previous = parseFloat(state.previous)
   switch (val) {
     case 'C':
       return {
@@ -57,16 +57,52 @@ export const handleOperators = (val, state) => {
         newLine: true,
         operation: '/'
       }
-    case '=':
-      if (state.operation === null) {
-        return state
-      }
+    case '%':
       return {
         ...state,
+        current: current / 100,
         newLine: true,
         operation: null,
-        current: String(eval(`${state.previous}${state.operation}${state.current}`)),
-        previous: String(eval(`${state.previous}${state.operation}${state.current}`))
+      }
+    case 'SQRT':
+      return {
+        ...state,
+        current: Math.sqrt(current),
+        newLine: true,
+        operation: null,
+      }
+    case '=':
+      switch (state.operation) {
+        case '+':
+          return {
+            ...state,
+            newLine: true,
+            current: previous + current,
+            previous: previous + current
+          }
+        case '-':
+          return {
+            ...state,
+            newLine: true,
+            current: previous - current,
+            previous: previous - current
+          }
+        case '*':
+          return {
+            ...state,
+            newLine: true,
+            current: previous * current,
+            previous: previous * current
+          }
+        case '/':
+          return {
+            ...state,
+            newLine: true,
+            current: previous / current,
+            previous: previous / current
+          }
+        default:
+          return state
       }
     default:
       return state

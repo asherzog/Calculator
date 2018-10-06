@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import CalculatorKey from '../components/CalculatorKey'
-import { btnConfigs } from '../constants/configs'
 import { handleArithmetic, handleOperators } from '../utils/calcLogic'
 import injectSheet from 'react-jss'
 import ValueBox from '../components/ValueBox'
@@ -33,7 +32,6 @@ const styles = {
 class App extends Component {
   constructor(props) {
     super(props)
-    this.handleClick = this.handleClick.bind(this)
     this.state = {
       current: '0',
       newLine: false,
@@ -42,11 +40,15 @@ class App extends Component {
     }
   }
 
+  componentDidMount() {
+    document.addEventListener("keydown", this.handleKeyPress.bind(this));
+  }
+
   handleClick(val) {
     let { current } = this.state
     switch (true) {
       case !isNaN(parseInt(val)):
-      case val === '.' && current.indexOf('.') === -1:
+      case val === '.' && current.toString().indexOf('.') === -1:
         this.setState(handleArithmetic(val, this.state))
         break
       default:
@@ -55,8 +57,27 @@ class App extends Component {
     }
   }
 
+  handleKeyPress(e) {
+    switch (e.key) {
+      case 'Backspace':
+      case 'c':
+        return this.handleClick('C')
+      case 'x':
+      case '*':
+        return this.handleClick('X')
+      case 'S':
+      case 's':
+        return this.handleClick('SQRT')
+      case 'Enter':
+        return this.handleClick('=')
+      default:
+        return this.handleClick(e.key)
+    }
+  }
+
   renderKeys() {
     const { classes } = this.props
+    const btnConfigs = ['C', 'SQRT', '%', '/', 7, 8, 9, 'X', 4, 5, 6, '-', 1, 2, 3, '+', 0, '.', '=']
 
     return (
       <div className={classes.calculatorKeys}>
