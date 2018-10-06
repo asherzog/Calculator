@@ -43,9 +43,7 @@ class CalculatorKey extends Component {
         className={`${classes.container} ${this.styleCheck(val)}`}
         onClick={(e) => handleClick(e.target.id)}
         id={val}>
-          <b>
-            {val}
-          </b>
+          {val}
       </div>
     )
   }

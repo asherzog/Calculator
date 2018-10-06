@@ -3,14 +3,15 @@ import injectSheet from 'react-jss'
 
 const styles = {
   digits: {
-    margin: 5
+    marginRight: 10
   },
   value: {
     alignItems: 'flex-end',
     display: 'flex',
-    fontSize: '3em',
+    fontSize: '2.5vw',
     height: '20%',
     justifyContent: 'flex-end',
+    overflow: 'scroll',
     width: '100%'
   }
 }

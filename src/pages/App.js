@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import CalculatorKey from '../components/CalculatorKey'
-import btnConfigs from '../constants/configs'
+import { btnConfigs } from '../constants/configs'
+import { handleArithmetic, handleOperators } from '../utils/calcLogic'
 import injectSheet from 'react-jss'
 import ValueBox from '../components/ValueBox'
 
@@ -20,6 +21,7 @@ const styles = {
     height: '80%'
   },
   container: {
+    background: '#eff1f4',
     height: '100vh',
     width: '100vw',
     alignItems: 'center',
@@ -29,13 +31,37 @@ const styles = {
 }
 
 class App extends Component {
+  constructor(props) {
+    super(props)
+    this.handleClick = this.handleClick.bind(this)
+    this.state = {
+      current: '0',
+      newLine: false,
+      operation: null,
+      previous: '0'
+    }
+  }
+
+  handleClick(val) {
+    let { current } = this.state
+    switch (true) {
+      case !isNaN(parseInt(val)):
+      case val === '.' && current.indexOf('.') === -1:
+        this.setState(handleArithmetic(val, this.state))
+        break
+      default:
+        this.setState(handleOperators(val, this.state))
+        break
+    }
+  }
+
   renderKeys() {
     const { classes } = this.props
 
     return (
       <div className={classes.calculatorKeys}>
         {btnConfigs.map((val, i) => {
-          return <CalculatorKey key={i} val={val} handleClick={(e) => console.log(e)}/>
+          return <CalculatorKey key={i} val={val} handleClick={(val) => this.handleClick(val)}/>
         })}
       </div>
     )
@@ -47,7 +73,7 @@ class App extends Component {
     return (
       <section className={classes.container}>
         <div className={classes.calculator}>
-          <ValueBox val={0} />
+          <ValueBox val={this.state.current} />
           { this.renderKeys() }
         </div>
       </section>
